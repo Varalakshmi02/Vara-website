@@ -10,7 +10,7 @@ let editingItemId = null; // To keep track of the item being edited
 const navAddItemBtn = document.getElementById('navAddItem'); 
 const navInventoryViewBtn = document.getElementById('navInventoryView'); 
 const navStockModificationBtn = document.getElementById('navStockModification'); 
-const navButtons = document.querySelectorAll('.nav-bu on'); 
+const navButtons = document.querySelectorAll('.nav-button'); 
 // Screens 
 const addItemScreen = document.getElementById('addItemScreen'); 
 const inventoryViewScreen = document.getElementById('inventoryViewScreen'); 
@@ -19,7 +19,7 @@ const stockModificationScreen = document.getElementById('stockModificationScreen
 const itemForm = document.getElementById('itemForm'); 
 const itemIdInput = document.getElementById('itemId'); 
 const itemNameInput = document.getElementById('itemName'); 
-const itemQuan tyInput = document.getElementById('itemQuan ty'); 
+const itemQuantityInput = document.getElementById('itemQuantity'); 
 const itemPriceInput = document.getElementById('itemPrice'); // Now "Cost Price" 
 const saveItemBtn = document.getElementById('saveItemBtn'); 
 const clearFormBtn = document.getElementById('clearFormBtn'); 
@@ -130,8 +130,8 @@ function renderInventory(itemsToDisplay = inventory) {
                         class="text-blue-600 hover:text-blue-900 mr-3 px-3 py-1 rounded-md bg-blue
 100 hover:bg-blue-200 transition duration-150 ease-in-out"> 
                     Edit 
-                </bu on> 
-                <bu on onclick="deleteItem('${item.id}')" 
+                </button> 
+                <button onclick="deleteItem('${item.id}')" 
                         class="text-red-600 hover:text-red-900 px-3 py-1 rounded-md bg-red-100 
 hover:bg-red-200 transition duration-150 ease-in-out"> 
                     Delete 
