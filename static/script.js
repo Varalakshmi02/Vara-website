@@ -1,5 +1,4 @@
-// static/script.js 
-// Global state variables 
+
 let inventory = []; 
 let totalProfit = 0; 
 let totalLoss = 0; 
@@ -67,7 +66,7 @@ globalMessageBox.classList.add('bg-red-100', 'text-red-800');
 /** 
  * Saves the current inventory, total profit, and total loss to local storage. 
  */ 
-func on saveState() { 
+function saveState() { 
     try { 
         localStorage.setItem('inventory', JSON.stringify(inventory)); 
         localStorage.setItem('totalProfit', totalProfit.toFixed(2)); 
@@ -81,7 +80,7 @@ func on saveState() {
 /** 
  * Loads inventory, total profit, and total loss data from local storage. 
  */ 
-func on loadState() { 
+function loadState() { 
     try { 
         const storedInventory = localStorage.getItem('inventory'); 
         if (storedInventory) { 
@@ -145,22 +144,22 @@ hover:bg-red-200 transition duration-150 ease-in-out">
 /** 
  * Calculates and displays overall inventory metrics. 
  */ 
-func on updateInventoryMetrics() { 
+function updateInventoryMetrics() { 
     const totalUnique = inventory.length; 
     const totalQty = inventory.reduce((sum, item) => sum + item.quantity, 0); 
     const totalVal = inventory.reduce((sum, item) => sum + (item.quantity * item.price), 0); 
  
     totalUniqueItemsDisplay.textContent = totalUnique; 
-    totalQuan tyDisplay.textContent = totalQty; 
-    totalValua onDisplay.textContent = `₹${totalVal.toFixed(2)}`; 
+    totalQuantityDisplay.textContent = totalQty; 
+    totalValuationDisplay.textContent = `₹${totalVal.toFixed(2)}`; 
 } 
  
 /** 
  * Populates the item selection dropdown on the Stock Modification screen. 
  */ 
-func on populateModifyItemSelect() { 
+function populateModifyItemSelect() { 
     modifyItemIdSelect.innerHTML = '<op on value="">-- Select an item --</op on>'; // Clear 
-exis ng op ons 
+existing op ons 
     inventory.forEach(item => { 
         const option = document.createElement('op on'); 
         op on.value = item.id; 
@@ -182,7 +181,7 @@ function updateFinancialSummary() {
  * Handles screen switching logic. 
  * @param {string} screenId - The ID of the screen to show. 
  */ 
-func on showScreen(screenId) { 
+function showScreen(screenId) { 
     // Hide all screens 
     document.querySelectorAll('.screen').forEach(screen => { 
         screen.classList.remove('ac ve'); 
@@ -203,7 +202,7 @@ func on showScreen(screenId) {
         inventorySearchBar.value = ''; // Clear search bar on screen switch 
     } 
     if (screenId === 'stockModifica onScreen') { 
-        navStockModifica onBtn.classList.add('active'); 
+        navStockModificationBtn.classList.add('active'); 
         populateModifyItemSelect(); // Populate dropdown when this screen is ac ve 
         updateFinancialSummary(); // Update financial summary 
         modifyQuantityInput.value = ''; // Clear quantity input 
@@ -237,18 +236,18 @@ itemForm.addEventListener('submit', function(event) {
         return; 
     } 
  
-    if (edi ngItemId) { 
+    if (editingItemId) { 
         // Editing existing item 
         const itemIndex = inventory.findIndex(item => item.id === editingItemId); 
         if (itemIndex !== -1) { 
             // Check if ID was changed and if new ID is unique 
-            if (edi ngItemId !== id && inventory.some(item => item.id === id)) { 
+            if (editingItemId !== id && inventory.some(item => item.id === id)) { 
                 showMessage('Item ID already exists. Please use a unique ID.', 'error'); 
                 return; 
             } 
             inventory[itemIndex].id = id; // Update ID if changed 
             inventory[itemIndex].name = name; 
-            inventory[itemIndex].quan ty = quan ty; 
+            inventory[itemIndex].quantity = quantity; 
             inventory[itemIndex].price = price; 
             showMessage('Item updated successfully!', 'success'); 
         } 
@@ -266,7 +265,7 @@ itemForm.addEventListener('submit', function(event) {
         const newItem = { 
             id: id, 
             name: name, 
-            quantity: quan ty, 
+            quantity: quantity, 
             price: price // This is the cost price 
         }; 
         inventory.push(newItem); 
@@ -301,12 +300,12 @@ clearFormBtn.addEventListener('click', clearForm);
  * Populates the form with data of an item to be edited. 
  * @param {string} id - The ID of the item to edit. 
  */ 
-func on editItem(id) { 
+function editItem(id) { 
     const itemToEdit = inventory.find(item => item.id === id); 
     if (itemToEdit) { 
         itemIdInput.value = itemToEdit.id; 
         itemNameInput.value = itemToEdit.name; 
-        itemQuan tyInput.value = itemToEdit.quan ty; 
+        itemQuantityInput.value = itemToEdit.quantity; 
         itemPriceInput.value = itemToEdit.price; 
         editingItemId = id; 
         saveItemBtn.textContent = 'Update Item'; 
@@ -321,7 +320,7 @@ func on editItem(id) {
  * Deletes an item from the inventory. 
  * @param {string} id - The ID of the item to delete. 
  */ 
-func on deleteItem(id) { 
+function deleteItem(id) { 
     const ini alLength = inventory.length; 
     const deletedItem = inventory.find(item => item.id === id); 
     inventory = inventory.filter(item => item.id !== id); 
@@ -383,7 +382,7 @@ modifyItemIdSelect.addEventListener('change', toggleSalePriceInput);
  * Handles the submission of the stock modification form. 
  * @param {Event} event - The form submission event. 
  */ 
-stockModifica onForm.addEventListener('submit', function(event) { 
+stockModificationForm.addEventListener('submit', function(event) { 
     event.preventDefault(); 
  
     const selectedItemId = modifyItemIdSelect.value; 
@@ -429,11 +428,11 @@ document.querySelector('input[name="changeReason"]:checked').value;
  
         if (transactionProfitLoss >= 0) { 
             totalProfit += transactionProfitLoss; 
-            showMessage(`Sold ${quan tyChange} of ${itemToModify.name} for 
+            showMessage(`Sold ${quantityChange} of ${itemToModify.name} for 
 ₹${salePrice.toFixed(2)} each. Profit: ₹${transactionProfitLoss.toFixed(2)}`, 'success'); 
         } else { 
             totalLoss += Math.abs(transactionProfitLoss); 
-            showMessage(`Sold ${quan tyChange} of ${itemToModify.name} for 
+            showMessage(`Sold ${quantityChange} of ${itemToModify.name} for 
 ₹${salePrice.toFixed(2)} each. Loss: ₹${Math.abs(transactionProfitLoss).toFixed(2)}`, 'info'); 
         } 
  
